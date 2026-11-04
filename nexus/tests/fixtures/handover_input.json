@@ -1,0 +1,6 @@
+[
+  {"role": "user", "content": "I need to design the failover cascade for Obsidian Nexus. The cascade should have 5 rungs."},
+  {"role": "assistant", "content": "The five rungs would be: Rung 1 (Anthropic Sonnet default, Opus on-demand, Haiku for summariser), Rung 2 (OpenRouter MiniMax M2.5:free), Rung 3 (OpenRouter GPT-OSS 120B:free), Rung 4 (OpenRouter DeepSeek V4 Flash:free), and Rung 5 (Local Ollama gemma4:latest). Each rung activates when the previous rung fails or exhausts its quota."},
+  {"role": "user", "content": "What trigger classes should we support?"},
+  {"role": "assistant", "content": "Seven trigger classes: HARD_FAIL (adapter unreachable or non-zero exit), PRO_QUOTA_EXHAUSTED (Anthropic Pro weekly limit hit), SOFT_DEGRADE (latency spikes above 3x rolling P95 for 2+ consecutive turns), OPENROUTER_QUOTA (shared daily free-tier pool exhausted — cools all three OpenRouter rungs together), CONTEXT_LIMIT (prompt exceeds the model's context window), EXPLICIT_REFUSAL (content policy block), and MANUAL (user-initiated rung change)."}
+]

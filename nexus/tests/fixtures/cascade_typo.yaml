@@ -1,0 +1,9 @@
+schema_version: 2
+rungs:
+  - position: 1
+    adapter: anthropic
+    auth_mode: subscriptin     # typo — must be rejected by Literal validation
+    use_ruflo: true
+    models:
+      default: claude-sonnet-4-6
+jurisdictions: {}

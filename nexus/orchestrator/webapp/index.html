@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Nexus Home</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
+<link rel="stylesheet" href="/app/static/style.css">
+<script>window.NEXUS_TOKEN = "{{NEXUS_TOKEN}}";</script>
+</head>
+<body>
+<div class="backdrop" aria-hidden="true"></div>
+
+<main id="view" class="view"><!-- client-rendered --></main>
+
+<!-- Chat dock toggle -->
+<button id="chat-fab" class="chat-fab glass" title="Nexus chat" aria-label="Open Nexus chat">✦</button>
+
+<!-- Live model pool sidebar -->
+<button id="model-fab" class="model-fab glass" title="Model pool status" aria-label="Model pool status">◈</button>
+<aside id="model-sidebar" class="model-sidebar glass-strong" hidden>
+  <div class="model-sidebar-head">
+    <span>Model Pool</span>
+    <button id="model-sidebar-close" class="icon-btn" aria-label="Close">✕</button>
+  </div>
+  <div id="model-sidebar-last" class="routing-row last-answered"></div>
+  <div id="model-sidebar-list"></div>
+</aside>
+
+<!-- Chat panel -->
+<aside id="chat-panel" class="chat-panel glass-strong" hidden>
+  <header class="chat-header">
+    <div class="chat-title">
+      <span class="chat-mark">✦</span> Nexus
+      <button id="routing-btn" class="pill pill-ghost" title="Routing status">●</button>
+    </div>
+    <div class="chat-header-actions">
+      <label class="ctx-toggle" title="Give the chat summary-level knowledge of your projects">
+        <input type="checkbox" id="ctx-projects"> Projects
+      </label>
+      <button id="chat-close" class="icon-btn" aria-label="Close chat">✕</button>
+    </div>
+  </header>
+
+  <div id="mode-select" class="mode-select" role="radiogroup" aria-label="Routing mode">
+    <button class="mode-opt active" data-mode="auto">Auto</button>
+    <button class="mode-opt" data-mode="light">Light</button>
+    <button class="mode-opt" data-mode="hard">Hard</button>
+    <button class="mode-opt" data-mode="research" title="Deep research: web search + citations">Research</button>
+  </div>
+
+  <div id="routing-popover" class="routing-popover glass-strong" hidden></div>
+
+  <div id="chat-log" class="chat-log" aria-live="polite"></div>
+
+  <footer class="chat-input-row">
+    <textarea id="chat-input" class="chat-input" rows="1" placeholder="Ask the Nexus…"></textarea>
+    <button id="chat-send" class="send-btn" aria-label="Send">↑</button>
+  </footer>
+</aside>
+
+<!-- Add-projects modal -->
+<div id="modal-root"></div>
+
+<script src="/app/static/app.js"></script>
+</body>
+</html>

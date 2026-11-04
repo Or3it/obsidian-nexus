@@ -1,0 +1,39 @@
+schema_version: 3
+rungs:
+  - position: 1
+    adapter: anthropic
+    auth_mode: subscription
+    use_ruflo: false
+    enable_web_tools: false
+    models:
+      default: claude-sonnet-4-6
+      premium: claude-opus-4-7
+      summariser: claude-haiku-4-5
+
+pool:
+  adapter: openrouter
+  auth_mode: api_key_free_tier
+  tier_order: [frontier, strong, reliable]
+  members:
+    - model: openai/gpt-oss-120b:free
+      tier: frontier
+      roles: [reasoning, coding, general]
+    - model: deepseek/deepseek-v4-flash:free
+      tier: frontier
+      roles: [reasoning, coding]
+    - model: minimax/minimax-m2.5:free
+      tier: strong
+      roles: [coding, general]
+    - model: qwen/qwen3-next-80b-a3b-instruct:free
+      tier: strong
+      roles: [general]
+    - model: google/gemma-4-31b-it:free
+      tier: reliable
+      roles: [general]
+
+floor:
+  adapter: ollama
+  auth_mode: local
+  model: gemma4:latest
+
+jurisdictions: {}

@@ -1,0 +1,7 @@
+# Ruflo stdout fixture — NOT USED IN PHASE 1
+#
+# use_ruflo=True raises AdapterUnavailable before any subprocess is started.
+# Ruflo v3.7.0-alpha.38 has no 'claude-code' subcommand. See OPEN_QUESTIONS.md.
+#
+# If a future phase wires Ruflo via MCP, replace this file with captured
+# output from that integration path.

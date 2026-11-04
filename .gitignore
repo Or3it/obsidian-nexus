@@ -1,0 +1,51 @@
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+.claude/
+
+# Secrets — copy .env.example to .env and fill in locally
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python caches / build output
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.egg-info/
+build/
+dist/
+
+# Node
+node_modules/
+nexus/plugin/main.js
+
+# Logs
+*.log
+logs/
+
+# Runtime / vault state
+model_health.json
+nexus-test-vault/
+
+# Local model weights and data dumps
+*.gguf
+*.safetensors
+*.bin
+*.pt
+*.onnx
+*.db
+*.sqlite
+*.sqlite3
+
+# Archives
+*.zip

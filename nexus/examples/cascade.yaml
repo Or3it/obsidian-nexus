@@ -1,0 +1,94 @@
+schema_version: 3
+
+rungs:
+  - position: 1
+    adapter: anthropic
+    auth_mode: subscription
+    use_ruflo: false
+    enable_web_tools: false
+    opus_heuristic:
+      enabled: false
+      min_chars: 500
+      keywords:
+        - design
+        - architect
+        - tradeoff
+        - trade-off
+        - compare
+        - refactor
+        - strategy
+        - evaluate
+        - critique
+        - analyze
+        - analyse
+        - systematically
+        - in depth
+        - thoroughly
+    models:
+      default: claude-sonnet-4-6
+      premium: claude-opus-4-7
+      summariser: claude-haiku-4-5
+
+# Pool of free OpenRouter models — replaces fixed rungs 2-4.
+# Health-aware selection engine (T04) routes to the strongest live model by tier.
+# Refreshed 2026-07-03 (Phase 3W M1): live-probed against openrouter.ai/api/v1/models.
+# Full probe table in OPEN_QUESTIONS.md ("Phase 3W M1 pool refresh").
+# Dropped (no longer free): minimax-m2.5, deepseek-v4-flash, llama-3.3-70b (dead + dominated).
+# Dropped (reasoning bleeds into content): nemotron-3-nano-30b.
+# Dropped (reasoning starves 500-tok budget, weak): cohere/north-mini-code.
+# Dropped (connection lost mid-probe, weaker sibling of 31b): gemma-4-26b-a4b.
+pool:
+  adapter: openrouter
+  auth_mode: api_key_free_tier
+  tier_order: [frontier, strong, reliable]
+  members:
+    - model: nvidia/nemotron-3-ultra-550b-a55b:free   # 14.6s; 1M ctx; clean reasoning field; answered
+      tier: frontier
+      roles: [reasoning, general]
+    - model: nvidia/nemotron-3-super-120b-a12b:free   # 9.6s; 1M ctx; clean separation at this probe (bled in May) — exclude as belt-and-braces
+      tier: frontier
+      roles: [reasoning, general]
+      reasoning_mode: exclude
+    - model: openai/gpt-oss-120b:free                 # dead-at-probe (provider error); strong when live
+      tier: frontier
+      roles: [reasoning, coding, general]
+    - model: qwen/qwen3-coder:free                    # 1M ctx; dead-at-probe; coding specialist
+      tier: strong
+      roles: [coding]
+    - model: poolside/laguna-m.1:free                 # dead-at-probe; poolside flagship free coding model
+      tier: strong
+      roles: [coding]
+    - model: qwen/qwen3-next-80b-a3b-instruct:free    # dead-at-probe; broad general fallback
+      tier: strong
+      roles: [general]
+    - model: google/gemma-4-31b-it:free               # 3.7s; no reasoning tokens; clean; fastest clean answer
+      tier: reliable
+      roles: [general, fast]
+    - model: poolside/laguna-xs.2:free                # 5.1s; clean reasoning separation; new July slug
+      tier: reliable
+      roles: [coding, fast]
+    - model: poolside/laguna-xs-2.1:free              # 7.7s; clean reasoning separation
+      tier: reliable
+      roles: [coding, fast]
+    - model: openai/gpt-oss-20b:free                  # 7.3s; reasoning ate whole 500-tok budget → exclude
+      tier: reliable
+      roles: [general, fast]
+      reasoning_mode: exclude
+
+# Local sovereignty floor — last resort before complete failure.
+floor:
+  adapter: ollama
+  auth_mode: local
+  model: gemma4:latest
+
+classifier:
+  enabled: true
+  backend: heuristic
+  route_by_role: false
+
+jurisdictions: {}
+
+# Project hub (optional). scan_root defaults to ~/Documents when omitted.
+# projects:
+#   scan_root: /Users/you/Documents
+#   ignore: [node_modules, archive]

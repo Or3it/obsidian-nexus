@@ -1,0 +1,170 @@
+=== Date ===
+Fri May 15 10:40:02 CDT 2026
+
+=== npm view @anthropic-ai/claude-code version ===
+2.1.142
+
+=== npm view ruflo version ===
+3.7.0-alpha.38
+
+=== claude --version ===
+2.1.71 (Claude Code)
+
+=== claude --help ===
+Usage: claude [options] [command] [prompt]
+
+Claude Code - starts an interactive session by default, use -p/--print for
+non-interactive output
+
+Arguments:
+  prompt                                            Your prompt
+
+Options:
+  --add-dir <directories...>                        Additional directories to allow tool access to
+  --agent <agent>                                   Agent for the current session. Overrides the 'agent' setting.
+  --agents <json>                                   JSON object defining custom agents (e.g. '{"reviewer": {"description": "Reviews code", "prompt": "You are a code reviewer"}}')
+  --allow-dangerously-skip-permissions              Enable bypassing all permission checks as an option, without it being enabled by default. Recommended only for sandboxes with no internet access.
+  --allowedTools, --allowed-tools <tools...>        Comma or space-separated list of tool names to allow (e.g. "Bash(git:*) Edit")
+  --append-system-prompt <prompt>                   Append a system prompt to the default system prompt
+  --betas <betas...>                                Beta headers to include in API requests (API key users only)
+  --chrome                                          Enable Claude in Chrome integration
+  -c, --continue                                    Continue the most recent conversation in the current directory
+  --dangerously-skip-permissions                    Bypass all permission checks. Recommended only for sandboxes with no internet access.
+  -d, --debug [filter]                              Enable debug mode with optional category filtering (e.g., "api,hooks" or "!1p,!file")
+  --debug-file <path>                               Write debug logs to a specific file path (implicitly enables debug mode)
+  --disable-slash-commands                          Disable all skills
+  --disallowedTools, --disallowed-tools <tools...>  Comma or space-separated list of tool names to deny (e.g. "Bash(git:*) Edit")
+  --effort <level>                                  Effort level for the current session (low, medium, high)
+  --fallback-model <model>                          Enable automatic fallback to specified model when default model is overloaded (only works with --print)
+  --file <specs...>                                 File resources to download at startup. Format: file_id:relative_path (e.g., --file file_abc:doc.txt file_def:img.png)
+  --fork-session                                    When resuming, create a new session ID instead of reusing the original (use with --resume or --continue)
+  --from-pr [value]                                 Resume a session linked to a PR by PR number/URL, or open interactive picker with optional search term
+  -h, --help                                        Display help for command
+  --ide                                             Automatically connect to IDE on startup if exactly one valid IDE is available
+  --include-partial-messages                        Include partial message chunks as they arrive (only works with --print and --output-format=stream-json)
+  --input-format <format>                           Input format (only works with --print): "text" (default), or "stream-json" (realtime streaming input) (choices: "text", "stream-json")
+  --json-schema <schema>                            JSON Schema for structured output validation. Example: {"type":"object","properties":{"name":{"type":"string"}},"required":["name"]}
+  --max-budget-usd <amount>                         Maximum dollar amount to spend on API calls (only works with --print)
+  --mcp-config <configs...>                         Load MCP servers from JSON files or strings (space-separated)
+  --mcp-debug                                       [DEPRECATED. Use --debug instead] Enable MCP debug mode (shows MCP server errors)
+  --model <model>                                   Model for the current session. Provide an alias for the latest model (e.g. 'sonnet' or 'opus') or a model's full name (e.g. 'claude-sonnet-4-6').
+  --no-chrome                                       Disable Claude in Chrome integration
+  --no-session-persistence                          Disable session persistence - sessions will not be saved to disk and cannot be resumed (only works with --print)
+  --output-format <format>                          Output format (only works with --print): "text" (default), "json" (single result), or "stream-json" (realtime streaming) (choices: "text", "json", "stream-json")
+  --permission-mode <mode>                          Permission mode to use for the session (choices: "acceptEdits", "bypassPermissions", "default", "dontAsk", "plan", "auto")
+  --plugin-dir <paths...>                           Load plugins from directories for this session only (repeatable)
+  -p, --print                                       Print response and exit (useful for pipes). Note: The workspace trust dialog is skipped when Claude is run with the -p mode. Only use this flag in directories you trust.
+  --replay-user-messages                            Re-emit user messages from stdin back on stdout for acknowledgment (only works with --input-format=stream-json and --output-format=stream-json)
+  -r, --resume [value]                              Resume a conversation by session ID, or open interactive picker with optional search term
+  --session-id <uuid>                               Use a specific session ID for the conversation (must be a valid UUID)
+  --setting-sources <sources>                       Comma-separated list of setting sources to load (user, project, local).
+  --settings <file-or-json>                         Path to a settings JSON file or a JSON string to load additional settings from
+  --strict-mcp-config                               Only use MCP servers from --mcp-config, ignoring all other MCP configurations
+  --system-prompt <prompt>                          System prompt to use for the session
+  --tmux                                            Create a tmux session for the worktree (requires --worktree). Uses iTerm2 native panes when available; use --tmux=classic for traditional tmux.
+  --tools <tools...>                                Specify the list of available tools from the built-in set. Use "" to disable all tools, "default" to use all tools, or specify tool names (e.g. "Bash,Edit,Read").
+  --verbose                                         Override verbose mode setting from config
+  -v, --version                                     Output the version number
+  -w, --worktree [name]                             Create a new git worktree for this session (optionally specify a name)
+
+Commands:
+  agents [options]                                  List configured agents
+  auth                                              Manage authentication
+  doctor                                            Check the health of your Claude Code auto-updater
+  install [options] [target]                        Install Claude Code native build. Use [target] to specify version (stable, latest, or specific version)
+  mcp                                               Configure and manage MCP servers
+  plugin                                            Manage Claude Code plugins
+  setup-token                                       Set up a long-lived authentication token (requires Claude subscription)
+  update|upgrade                                    Check for updates and install if available
+
+=== npx ruflo --help ===
+Need to install the following packages:
+ruflo@3.7.0-alpha.38
+Ok to proceed? (y) npm error canceled
+npm error A complete log of this run can be found in: /Users/you/.npm/_logs/2026-05-15T15_40_24_542Z-debug-0.log
+npm warn deprecated koa-router@14.0.0: Please use @koa/router instead, starting from v9! 
+npm warn deprecated prebuild-install@7.1.3: No longer maintained. Please contact the author of the relevant native addon; alternatives are available.
+npm warn deprecated boolean@3.2.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+npm warn deprecated uuid@9.0.1: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+
+ruflo v3.7.0-alpha.38
+Ruflo - AI Agent Orchestration Platform
+
+USAGE:
+  ruflo <command> [subcommand] [options]
+
+PRIMARY COMMANDS:
+  init         Initialize RuFlo in the current directory
+  start        Start the RuFlo orchestration system
+  status       Show system status
+  agent        Agent management commands
+  swarm        Swarm coordination commands
+  memory       Memory management commands
+  task         Task management commands
+  session      Session management commands
+  mcp          MCP server management
+  hooks        Self-learning hooks system for intelligent workflow automation
+
+ADVANCED COMMANDS:
+  neural       Neural pattern training, MoE, Flash Attention, pattern learning
+  security     Security scanning, CVE detection, threat modeling, AI defense
+  performance  Performance profiling, benchmarking, optimization, metrics
+  embeddings   Vector embeddings, semantic search, similarity operations
+  hive-mind    Queen-led consensus-based multi-agent coordination
+  ruvector     RuVector PostgreSQL Bridge management
+  guidance     Guidance Control Plane - compile, retrieve, enforce, and optimize guidance rules
+  autopilot    Persistent swarm completion — keeps agents working until ALL tasks are done
+
+UTILITY COMMANDS:
+  config       Configuration management
+  doctor       System diagnostics and health checks
+  daemon       Manage background worker daemon (Node.js-based, auto-runs like shell helpers)
+  completions  Generate shell completion scripts
+  migrate      V2 to V3 migration tools
+  workflow     Workflow execution and management
+
+ANALYSIS COMMANDS:
+  analyze      Code analysis, diff classification, graph boundaries, and change risk assessment
+  route        Intelligent task-to-agent routing using Q-Learning
+  progress     Check V3 implementation progress
+
+MANAGEMENT COMMANDS:
+  providers    Manage AI providers, models, and configurations
+  plugins      Plugin management with IPFS-based decentralized registry
+  deployment   Deployment management, environments, rollbacks
+  claims       Claims-based authorization, permissions, and access control
+  issues       Collaborative issue claims for human-agent workflows (ADR-016)
+  update       Manage @claude-flow package updates (ADR-025)
+  process      Background process management, daemon, and monitoring
+  appliance    Self-contained RVFA appliance management (build, inspect, verify, extract, run)
+  cleanup      Remove project artifacts created by claude-flow/ruflo
+
+GLOBAL OPTIONS:
+  -h, --help                Show help information
+  -V, --version             Show version number
+  -v, --verbose             Enable verbose output
+  -Q, --quiet               Suppress non-essential output
+  -c, --config              Path to configuration file
+      --format              Output format (text, json, table)
+      --no-color            Disable colored output
+  -i, --interactive         Enable interactive mode
+
+V3 FEATURES:
+  - 15-agent hierarchical mesh coordination
+  - AgentDB with HNSW indexing (150x-12,500x faster)
+  - Flash Attention (2.49x-7.47x speedup)
+  - Unified SwarmCoordinator engine
+  - Event-sourced state management
+  - Domain-Driven Design architecture
+
+EXAMPLES:
+  ruflo agent spawn -t coder              # Spawn a coder agent
+  ruflo swarm init --v3-mode              # Initialize V3 swarm
+  ruflo memory search -q "auth patterns"  # Semantic search
+  ruflo mcp start                         # Start MCP server
+
+Run "ruflo <command> --help" for command help
+
+Created with ❤️ by ruv.io
+

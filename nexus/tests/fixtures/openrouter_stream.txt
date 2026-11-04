@@ -1,0 +1,9 @@
+: OPENROUTER PROCESSING
+
+data: {"id":"gen-test001","object":"chat.completion.chunk","created":1747382400,"model":"minimax/minimax-m2.5:free","choices":[{"index":0,"delta":{"role":"assistant","content":"","reasoning":"Let me think about how to greet the user politely..."},"finish_reason":null}]}
+
+data: {"id":"gen-test001","object":"chat.completion.chunk","created":1747382401,"model":"minimax/minimax-m2.5:free","choices":[{"index":0,"delta":{"content":"Hello! How can I help you today?"},"finish_reason":null}]}
+
+data: {"id":"gen-test001","object":"chat.completion.chunk","created":1747382402,"model":"minimax/minimax-m2.5:free","choices":[{"index":0,"delta":{"content":""},"finish_reason":"stop"}]}
+
+data: [DONE]

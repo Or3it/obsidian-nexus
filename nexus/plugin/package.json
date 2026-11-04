@@ -1,0 +1,17 @@
+{
+  "name": "obsidian-nexus-plugin",
+  "version": "0.1.0",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "node esbuild.config.mjs production",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "builtin-modules": "^3.3.0",
+    "obsidian": "latest",
+    "typescript": "^5.0.0",
+    "esbuild": "^0.20.0"
+  }
+}

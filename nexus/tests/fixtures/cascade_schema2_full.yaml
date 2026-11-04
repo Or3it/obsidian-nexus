@@ -1,0 +1,28 @@
+schema_version: 2
+rungs:
+  - position: 1
+    adapter: anthropic
+    auth_mode: subscription
+    use_ruflo: false
+    enable_web_tools: false
+    models:
+      default: claude-sonnet-4-6
+      premium: claude-opus-4-7
+      summariser: claude-haiku-4-5
+  - position: 2
+    adapter: openrouter
+    auth_mode: api_key_free_tier
+    model: minimax/minimax-m2.5:free
+  - position: 3
+    adapter: openrouter
+    auth_mode: api_key_free_tier
+    model: openai/gpt-oss-120b:free
+  - position: 4
+    adapter: openrouter
+    auth_mode: api_key_free_tier
+    model: deepseek/deepseek-v4-flash:free
+  - position: 5
+    adapter: ollama
+    auth_mode: local
+    model: gemma4:latest
+jurisdictions: {}

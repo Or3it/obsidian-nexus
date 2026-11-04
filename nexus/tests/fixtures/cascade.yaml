@@ -1,0 +1,12 @@
+schema_version: 2
+rungs:
+  - position: 1
+    adapter: anthropic
+    auth_mode: subscription
+    use_ruflo: true
+    ruflo_version: "{verify-at-install}"
+    models:
+      default: claude-sonnet-4-6
+      premium: claude-opus-4-7
+      summariser: claude-haiku-4-5
+jurisdictions: {}

@@ -1,0 +1,444 @@
+/* Nexus Home — liquid glass design system (Phase 3W).
+   No framework, no build step. Light/dark via prefers-color-scheme. */
+
+/* ---------- tokens ---------- */
+:root {
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, monospace;
+
+  --bg: #eef1f6;
+  --text: #1b2230;
+  --text-soft: rgba(27, 34, 48, 0.62);
+  --text-faint: rgba(27, 34, 48, 0.42);
+
+  --glass-bg: rgba(255, 255, 255, 0.52);
+  --glass-bg-strong: rgba(255, 255, 255, 0.72);
+  --glass-bg-solid: #f5f7fa;
+  --glass-border: rgba(255, 255, 255, 0.65);
+  --glass-highlight: rgba(255, 255, 255, 0.9);
+  --shadow: rgba(24, 39, 75, 0.12);
+  --shadow-lift: rgba(24, 39, 75, 0.18);
+
+  --accent: #4f7cf7;
+  --accent-soft: rgba(79, 124, 247, 0.14);
+  --ok: #2fb344;
+  --warn: #e8a13c;
+  --bad: #e05252;
+
+  --tint-trading: #2fa47a;
+  --tint-ai-tooling: #7a5cf0;
+  --tint-scraping: #d98a2b;
+  --tint-worship: #3d8fd9;
+  --tint-other: #7684a1;
+
+  --radius: 18px;
+  --radius-sm: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #101319;
+    --text: #e8ecf4;
+    --text-soft: rgba(232, 236, 244, 0.64);
+    --text-faint: rgba(232, 236, 244, 0.4);
+
+    --glass-bg: rgba(28, 33, 46, 0.5);
+    --glass-bg-strong: rgba(26, 31, 43, 0.78);
+    --glass-bg-solid: #1a1f2b;
+    --glass-border: rgba(255, 255, 255, 0.09);
+    --glass-highlight: rgba(255, 255, 255, 0.14);
+    --shadow: rgba(0, 0, 0, 0.4);
+    --shadow-lift: rgba(0, 0, 0, 0.55);
+
+    --accent: #7b9cff;
+    --accent-soft: rgba(123, 156, 255, 0.16);
+  }
+}
+
+/* ---------- base ---------- */
+/* Global guard: any element toggled via the `hidden` attribute MUST disappear,
+   even if it (or a class it carries) also sets `display`. Author rules always
+   beat the UA `[hidden]{display:none}` default regardless of specificity or
+   source order, so a plain `.foo { display: flex }` silently un-hides a
+   hidden element — this bit the chat panel once already. One global,
+   maximally-specific rule closes the whole bug class instead of requiring a
+   `.foo[hidden] { display: none }` override per panel. */
+[hidden] { display: none !important; }
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ambient gradient mesh so the glass has something to refract */
+.backdrop {
+  position: fixed; inset: 0; z-index: -1;
+  background:
+    radial-gradient(42rem 42rem at 12% -8%, rgba(101, 140, 255, 0.22), transparent 60%),
+    radial-gradient(36rem 36rem at 95% 12%, rgba(47, 164, 122, 0.16), transparent 60%),
+    radial-gradient(44rem 44rem at 55% 115%, rgba(122, 92, 240, 0.18), transparent 60%),
+    var(--bg);
+}
+@media (prefers-color-scheme: dark) {
+  .backdrop {
+    background:
+      radial-gradient(42rem 42rem at 12% -8%, rgba(80, 112, 224, 0.25), transparent 60%),
+      radial-gradient(36rem 36rem at 95% 12%, rgba(38, 128, 96, 0.18), transparent 60%),
+      radial-gradient(44rem 44rem at 55% 115%, rgba(104, 78, 208, 0.22), transparent 60%),
+      var(--bg);
+  }
+}
+
+/* ---------- glass primitives ---------- */
+.glass, .glass-strong {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  box-shadow:
+    inset 0 1px 0 var(--glass-highlight),   /* 1px inner top edge highlight */
+    0 8px 28px var(--shadow);
+}
+.glass-strong { background: var(--glass-bg-strong); }
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .glass, .glass-strong {
+    -webkit-backdrop-filter: blur(22px) saturate(1.7);
+    backdrop-filter: blur(22px) saturate(1.7);
+  }
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass, .glass-strong { background: var(--glass-bg-solid); }
+}
+
+/* ---------- layout ---------- */
+.view { max-width: 1180px; margin: 0 auto; padding: 40px 28px 120px; }
+
+.wall-header {
+  display: flex; align-items: baseline; gap: 14px;
+  margin: 6px 2px 26px;
+}
+.wall-header h1 { font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; margin: 0; }
+.wall-count { color: var(--text-faint); font-size: 1.05rem; font-variant-numeric: tabular-nums; }
+.wall-header .spacer { flex: 1; }
+
+/* ---------- buttons & pills ---------- */
+button { font-family: inherit; color: inherit; }
+.btn {
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg-strong);
+  border-radius: 999px;
+  padding: 9px 18px;
+  font-size: 0.9rem; font-weight: 600;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 var(--glass-highlight), 0 3px 10px var(--shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.btn:hover { transform: translateY(-1px); box-shadow: inset 0 1px 0 var(--glass-highlight), 0 6px 16px var(--shadow-lift); }
+.btn:active { transform: translateY(0); }
+.btn-accent { background: var(--accent); border-color: transparent; color: #fff; }
+.btn-danger { color: var(--bad); }
+.btn[disabled] { opacity: 0.5; cursor: default; transform: none; }
+
+.pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 0.72rem; font-weight: 600;
+  padding: 3px 10px; border-radius: 999px;
+  background: var(--accent-soft); color: var(--text-soft);
+  border: none;
+}
+.pill-ghost { background: transparent; cursor: pointer; font-size: 0.8rem; }
+
+.icon-btn {
+  border: none; background: transparent; cursor: pointer;
+  font-size: 0.95rem; color: var(--text-faint);
+  padding: 4px 8px; border-radius: 8px;
+}
+.icon-btn:hover { color: var(--text); background: var(--accent-soft); }
+
+/* ---------- project wall ---------- */
+.wall {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 22px;
+}
+
+.card {
+  padding: 0; overflow: hidden; cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  display: flex; flex-direction: column;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), 0 16px 38px var(--shadow-lift);
+}
+
+.card-preview {
+  height: 110px; display: flex; align-items: center; justify-content: center;
+  font-size: 2.6rem; font-weight: 700; color: #fff;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.25);
+}
+.card-preview img { width: 100%; height: 100%; object-fit: cover; }
+
+.card-body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.card-name { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em; }
+.card-summary {
+  font-size: 0.85rem; line-height: 1.45; color: var(--text-soft);
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+  overflow: hidden; min-height: 3.7em;
+}
+.card-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.card-foot {
+  margin-top: auto; display: flex; align-items: center; gap: 8px;
+  font-size: 0.75rem; color: var(--text-faint);
+}
+.status-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.status-active { background: var(--ok); box-shadow: 0 0 6px var(--ok); }
+.status-stale { background: var(--warn); }
+.status-archived { background: var(--text-faint); }
+
+/* skeletons */
+.skeleton { pointer-events: none; }
+.skeleton .sk {
+  background: linear-gradient(100deg, transparent 30%, var(--glass-highlight) 50%, transparent 70%);
+  background-size: 220% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 8px;
+}
+@keyframes shimmer { to { background-position: -120% 0; } }
+
+/* empty state */
+.empty {
+  text-align: center; padding: 90px 30px;
+}
+.empty .empty-mark { font-size: 3rem; opacity: 0.5; }
+.empty h2 { font-weight: 700; margin: 12px 0 6px; }
+.empty p { color: var(--text-soft); margin: 0 0 22px; }
+
+/* ---------- detail view ---------- */
+.detail { padding: 28px 30px 40px; }
+.detail-top { display: flex; align-items: center; gap: 14px; margin-bottom: 6px; flex-wrap: wrap; }
+.detail-top h1 { font-size: 1.6rem; margin: 0; letter-spacing: -0.02em; }
+.back-link {
+  border: none; background: transparent; cursor: pointer;
+  color: var(--accent); font-size: 0.9rem; font-weight: 600; padding: 6px 0;
+}
+.detail-summary { font-size: 0.98rem; line-height: 1.6; color: var(--text-soft); max-width: 72ch; }
+.detail-actions { display: flex; gap: 10px; margin: 18px 0 8px; flex-wrap: wrap; }
+.run-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.run-cmd-input {
+  flex: 1; min-width: 200px; padding: 8px 12px; border-radius: 10px;
+  border: 1px solid var(--glass-border); background: var(--glass-bg);
+  color: var(--text); font-family: var(--mono); font-size: 0.85rem; outline: none;
+}
+.run-cmd-input:focus { border-color: var(--accent); }
+.run-output { margin-top: 12px; }
+.detail-section { margin-top: 26px; }
+.detail-section h3 {
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--text-faint); margin: 0 0 10px;
+}
+.readme {
+  padding: 20px 24px; font-size: 0.9rem; line-height: 1.6;
+  overflow-x: auto; max-height: 560px; overflow-y: auto;
+}
+.readme h1, .readme h2, .readme h3 { letter-spacing: -0.01em; }
+.readme pre {
+  background: rgba(0,0,0,0.28); color: #e8ecf4; padding: 12px 14px;
+  border-radius: 10px; overflow-x: auto; font-family: var(--mono); font-size: 0.8rem;
+}
+@media (prefers-color-scheme: light) {
+  .readme pre { background: #232936; }
+}
+.readme code { font-family: var(--mono); font-size: 0.85em; }
+.readme :not(pre) > code { background: var(--accent-soft); padding: 1px 5px; border-radius: 5px; }
+.readme a { color: var(--accent); }
+.readme blockquote { border-left: 3px solid var(--accent); margin: 0; padding-left: 14px; color: var(--text-soft); }
+
+.file-tree {
+  font-family: var(--mono); font-size: 0.78rem; line-height: 1.7;
+  color: var(--text-soft); padding: 16px 20px; overflow-x: auto;
+  max-height: 380px; overflow-y: auto; white-space: pre;
+}
+.git-row { display: flex; gap: 18px; flex-wrap: wrap; padding: 14px 20px; font-size: 0.85rem; }
+.git-row .k { color: var(--text-faint); margin-right: 6px; }
+
+/* ---------- modal (add flow) ---------- */
+.modal-scrim {
+  position: fixed; inset: 0; z-index: 60;
+  background: rgba(10, 14, 22, 0.45);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+}
+.modal {
+  width: min(620px, 100%); max-height: 82vh; display: flex; flex-direction: column;
+  padding: 22px 24px;
+}
+.modal-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.modal h2 { margin: 0 0 4px; font-size: 1.2rem; }
+.modal .modal-sub { color: var(--text-soft); font-size: 0.85rem; margin: 0 0 16px; }
+.manual-add-row { display: flex; gap: 8px; margin: 0 0 16px; }
+.manual-add-row .run-cmd-input { flex: 1; }
+.modal-list { overflow-y: auto; display: flex; flex-direction: column; gap: 8px; margin: 0 -6px; padding: 0 6px; }
+.cand {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px; border-radius: var(--radius-sm);
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+}
+.cand input { accent-color: var(--accent); width: 16px; height: 16px; }
+.cand .cand-main { flex: 1; min-width: 0; }
+.cand .cand-name { font-weight: 600; font-size: 0.92rem; }
+.cand .cand-path { font-size: 0.72rem; color: var(--text-faint); font-family: var(--mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cand .cand-meta { display: flex; gap: 6px; align-items: center; flex: none; }
+.cand-state { font-size: 0.9rem; width: 1.4em; text-align: center; }
+.modal-foot { display: flex; justify-content: flex-end; gap: 10px; margin-top: 18px; }
+
+/* confirm dialog */
+.confirm-box { width: min(440px, 100%); padding: 22px 24px; }
+.confirm-box p { color: var(--text-soft); font-size: 0.9rem; line-height: 1.5; }
+
+/* ---------- chat ---------- */
+.chat-fab {
+  position: fixed; right: 26px; bottom: 26px; z-index: 50;
+  width: 56px; height: 56px; border-radius: 50%;
+  font-size: 1.5rem; cursor: pointer; border: 1px solid var(--glass-border);
+  color: var(--accent);
+  transition: transform 0.15s ease;
+}
+.chat-fab:hover { transform: translateY(-2px) scale(1.04); }
+
+/* ---------- live model sidebar (Phase 3B) ---------- */
+/* Reuses .routing-row / .dot-* from the chat handover popover below —
+   only the container gets new positioning rules. */
+.model-fab {
+  position: fixed; left: 26px; bottom: 26px; z-index: 50;
+  width: 56px; height: 56px; border-radius: 50%;
+  font-size: 1.3rem; cursor: pointer; border: 1px solid var(--glass-border);
+  color: var(--accent);
+  transition: transform 0.15s ease;
+}
+.model-fab:hover { transform: translateY(-2px) scale(1.04); }
+
+.model-sidebar {
+  position: fixed; z-index: 45;
+  left: 20px; bottom: 96px; top: 20px;
+  width: min(300px, calc(100vw - 40px));
+  display: flex; flex-direction: column;
+  border-radius: 22px; padding: 16px 16px 12px;
+  overflow-y: auto;
+}
+.model-sidebar-head {
+  display: flex; align-items: center; justify-content: space-between;
+  font-weight: 700; font-size: 0.9rem; margin-bottom: 10px; flex: none;
+}
+.model-sidebar .last-answered {
+  background: var(--accent-soft); border-radius: 10px; padding: 8px 10px;
+  margin-bottom: 10px; font-size: 0.78rem; flex: none;
+}
+.model-sidebar .routing-row .m { font-size: 0.76rem; }
+
+.chat-panel {
+  position: fixed; z-index: 55;
+  right: 20px; bottom: 20px; top: 20px;
+  width: min(430px, calc(100vw - 40px));
+  display: flex; flex-direction: column;
+  border-radius: 22px;
+}
+.chat-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px 8px;
+}
+.chat-title { font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.chat-mark { color: var(--accent); }
+.chat-header-actions { display: flex; align-items: center; gap: 10px; }
+.ctx-toggle { font-size: 0.78rem; color: var(--text-soft); display: flex; align-items: center; gap: 5px; cursor: pointer; }
+.ctx-toggle input { accent-color: var(--accent); }
+
+.mode-select {
+  display: flex; gap: 4px; margin: 4px 16px 10px;
+  background: var(--accent-soft); border-radius: 999px; padding: 4px;
+}
+.mode-opt {
+  flex: 1; border: none; background: transparent; cursor: pointer;
+  font-size: 0.78rem; font-weight: 600; padding: 6px 0; border-radius: 999px;
+  color: var(--text-soft);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.mode-opt.active {
+  background: var(--glass-bg-strong); color: var(--text);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), 0 2px 8px var(--shadow);
+}
+
+.chat-log {
+  flex: 1; overflow-y: auto; padding: 6px 16px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.msg { max-width: 88%; padding: 10px 14px; border-radius: 16px; font-size: 0.89rem; line-height: 1.5; white-space: pre-wrap; overflow-wrap: break-word; }
+.msg-user { align-self: flex-end; background: var(--accent); color: #fff; border-bottom-right-radius: 6px; }
+.msg-assistant {
+  align-self: flex-start; background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: inset 0 1px 0 var(--glass-highlight);
+  border-bottom-left-radius: 6px;
+}
+.msg-meta {
+  align-self: flex-start; font-size: 0.7rem; color: var(--text-faint);
+  display: flex; gap: 6px; align-items: center; padding: 0 4px;
+}
+.model-pill {
+  background: var(--accent-soft); color: var(--text-soft);
+  border-radius: 999px; padding: 1px 8px; font-weight: 600;
+}
+.handover-line {
+  align-self: center; font-size: 0.72rem; color: var(--text-faint);
+  padding: 2px 10px; border-radius: 999px; background: var(--accent-soft);
+}
+.chat-input-row { display: flex; gap: 8px; padding: 10px 14px 14px; align-items: flex-end; }
+.chat-input {
+  flex: 1; resize: none; border: 1px solid var(--glass-border);
+  background: var(--glass-bg); color: var(--text);
+  border-radius: 14px; padding: 10px 14px; font-family: inherit; font-size: 0.9rem;
+  outline: none; max-height: 130px;
+}
+.chat-input:focus { border-color: var(--accent); }
+.send-btn {
+  width: 38px; height: 38px; border-radius: 50%; border: none;
+  background: var(--accent); color: #fff; font-size: 1.1rem; cursor: pointer;
+  flex: none;
+}
+.send-btn[disabled] { opacity: 0.45; cursor: default; }
+
+.routing-popover {
+  position: absolute; top: 52px; left: 16px; right: 16px; z-index: 5;
+  padding: 14px 16px; font-size: 0.8rem; border-radius: 16px;
+  max-height: 300px; overflow-y: auto;
+}
+.routing-row { display: flex; align-items: center; gap: 8px; padding: 3px 0; }
+.routing-row .dot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+.dot-live { background: var(--ok); }
+.dot-dead { background: var(--bad); }
+.dot-untested { background: var(--text-faint); }
+.routing-row .m { font-family: var(--mono); font-size: 0.72rem; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.routing-row .until { color: var(--text-faint); font-size: 0.68rem; }
+
+/* toast */
+.toast-root { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 90; display: flex; flex-direction: column; gap: 8px; }
+.toast {
+  padding: 10px 18px; border-radius: 999px; font-size: 0.85rem;
+  animation: toast-in 0.2s ease;
+}
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } }
+
+/* motion sensitivity */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+@media (max-width: 640px) {
+  .view { padding: 24px 16px 120px; }
+  .chat-panel { right: 8px; left: 8px; bottom: 8px; top: 8px; width: auto; }
+}
